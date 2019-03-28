@@ -11,25 +11,25 @@
     $third_input = (int) $input_line[2];
     $ans = array();
     for ($i = 1; count($ans) < 1000; $i++) {
-        if ($i = 1) {
+        if ($i === 1) {
             $ans[] = 1;
         } else {
             $n = $i;
-            while ($n % $first_input !== 0) {
+            while ($n % $first_input === 0) {
                 $n = $n / $first_input;
                 if ($n === 1) {
                     $ans[] = $i;
                     continue 2;
                 }
             }
-            while ($n % $second_input !== 0) {
+            while ($n % $second_input === 0) {
                 $n = $n / $second_input;
                 if ($n === 1) {
                     $ans[] = $i;
                     continue 2;
                 }
             }
-            while ($n % $third_input !== 0) {
+            while ($n % $third_input === 0) {
                 $n = $n / $third_input;
                 if ($n === 1) {
                     $ans[] = $i;
