@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>ルーレット</title>
+        <link rel="stylesheet" href="roulette.css">
+        <!--<script src="jquery-3.3.1.min.js"></script>-->
+        <script>
+            var timekeyper;
+            var data = [];
+            var start;
+            var stop;
+            var reset;
+            var random;
+            var stop_cell = null;
+            function make_image() {
+                var i = 1;
+                var image = document.getElementById('image');
+                for ( var j = 1; j <= 4; j++) {
+                    var tr = document.createElement('tr');
+                    tr.id = "tr" + j;
+                    image.appendChild(tr);
+                    for (  ; i <= 4*j; i++) {
+                        var td = document.createElement('td');
+                        td.id = "td" + i;
+                        td.innerHTML = i;
+                        tr.appendChild(td);
+                    }
+                }
+            }
+            function start_click() {
+                timekeyper = setInterval(roulet,100);
+                start.disabled = true;
+            }
+            function stop_click() {
+                if (start.disabled == false) {
+                    return;
+                }
+                clearInterval(timekeyper);
+                data.splice(random, 1);
+                stop_cell.classList.remove("color");
+                stop_cell.classList.add("new_color");
+                stop_cell = null;
+                if (data.length > 0) {
+                    start.disabled = false;
+                }
+            }
+            function reset_click() {
+                clearInterval(timekeyper);
+                data = [];
+                for (var i = 1;i <= 16;i++) {
+                    data.push(i);
+                }
+                for (var i = 0;i < data.length;i++) {
+                    document.getElementById('td' + data[i]).classList.remove("color");
+                    document.getElementById('td' + data[i]).classList.remove("new_color");
+                }
+                start.disabled = false;
+            }
+            function roulet() {
+                if (stop_cell !== null && stop_cell.classList.contains('color') === true) {
+                stop_cell.classList.remove("color");
+                }
+                random = Math.floor(Math.random() * data.length);
+                stop_cell = document.getElementById('td' + data[random] );
+                stop_cell.classList.add("color");
+            }
+            
+            
+            window.onload = function() {
+                make_image();
+                for (var i = 1;i <= 16;i++) {
+                    data.push(i);
+                }
+                start = document.getElementById('start');
+                stop = document.getElementById('stop');
+                reset = document.getElementById('reset');
+                start.addEventListener('click', start_click, false);
+                stop.addEventListener('click', stop_click, false);
+                reset.addEventListener('click', reset_click, false);
+            }
+        </script>
+    </head>
+    <body>
+        <table id="image"></table>
+        <ul>
+            <li><button id="start">スタート</button></li>
+            <li><button id="stop">ストップ</button></li>
+            <li><button id="reset">リセット</button></li>
+        </ul>
+    </body>
+</html>
